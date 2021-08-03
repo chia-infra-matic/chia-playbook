@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "maize"
+  user: "maize"
+  root: ".maize"
+  path: "maize-blockchain"
+  ico: "XMZ"
+  git: "https://github.com/Maize-Network/maize-blockchain.git"
+  role: "{{ fork_role }}"

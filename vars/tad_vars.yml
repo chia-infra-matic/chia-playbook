@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "tad"
+  user: "tad"
+  root: ".tad"
+  path: "tad-blockchain"
+  ico: "TAD"
+  git: "https://github.com/Tad-Network/tad-blockchain.git"
+  role: "{{ fork_role }}"

@@ -1,0 +1,13 @@
+---
+telegram:
+  hash: "" 
+  chat_id: "" 
+
+backup:
+  path: ""
+
+harvester:
+  plots:
+    - "/mnt/chia0"
+    - "/mnt/chia1"
+    - "/mnt/chia2"

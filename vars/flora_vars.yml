@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "flora"
+  user: "flora"
+  root: ".flora"
+  path: "flora-blockchain"
+  ico: "XFL"
+  git: "https://github.com/Flora-Network/flora-blockchain.git"
+  role: "{{ fork_role }}"

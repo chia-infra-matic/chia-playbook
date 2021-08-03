@@ -1,0 +1,13 @@
+---
+- name: Perform backup of current env
+  include_tasks: action_backup.yml
+  when: backup_user is defined and backup_user | bool
+
+- name: Stop all process
+  include_tasks: fork_services_stop.yml
+
+- name: Remove the user
+  ansible.builtin.user:
+    name: "{{ fork.user }}"
+    state: absent
+    remove: yes

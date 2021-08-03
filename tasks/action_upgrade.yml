@@ -1,0 +1,24 @@
+---
+- name: Load initial config
+  include_tasks: fork_get_config.yml
+
+- name: Perform backup of current env
+  include_tasks: action_backup.yml
+  when: backup_user is defined and backup_user | bool
+
+- name: Stop all process
+  include_tasks: fork_services_stop.yml
+
+- name: Remove the user
+  ansible.builtin.user:
+    name: "{{ fork.user }}"
+    state: absent
+    remove: yes
+
+- name: Install newest version from Git
+  include_tasks: action_install.yml
+
+- name: Restore DB to most recent backup
+  include_tasks: action_restore.yml
+  when: restore_db is defined and restore_db | bool
+

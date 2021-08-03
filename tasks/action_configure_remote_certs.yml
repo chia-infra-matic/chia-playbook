@@ -1,0 +1,50 @@
+---
+- name: Fork Install remote certs
+  block:
+    - name: Get list of file
+      shell: find . -maxdepth 1 -type f | cut -d'/' -f2
+      args:
+        chdir: "/home/{{ fork.user }}/{{ fork.root }}/mainnet/config/ssl/ca"
+      become: true
+      become_user: "{{ fork.user }}"
+      register: fork_ca_list
+      changed_when: false
+      delegate_to: "{{ node_peer }}"
+
+    - name: Fetch certs from remote source
+      fetch:
+        src: "/home/{{ fork.user }}/{{ fork.root }}/mainnet/config/ssl/ca/{{ item }}"
+        dest: /tmp/fetched
+      loop: "{{ fork_ca_list.stdout_lines }}"
+      delegate_to: "{{ node_peer }}"
+
+    - name: Copy certs from remote source
+      copy:
+        src: "/tmp/fetched/{{ target }}/home/{{ fork.user }}/{{ fork.root }}/mainnet/config/ssl/ca/"
+        dest: "/home/{{ fork.user }}/tmp_certs/"
+        owner: "{{ fork.user }}"
+        group: "{{ fork.user }}"
+      loop: "{{ fork_ca_list.stdout_lines }}"
+
+    - name: Install certs
+      shell: ". ./activate && {{ fork.bin }} init -c /home/{{ fork.user }}/tmp_certs/."
+      args:
+        chdir: "/home/{{ fork.user }}/{{ fork.path }}/"
+      become: true
+      become_user: "{{ fork.user }}"
+      register: fork_init
+      changed_when: fork_init.rc == 0
+
+  always:
+    - name: Remove tmp files (Controller)
+      ansible.builtin.file:
+        path: "/tmp/fetched/{{ target }}/home/{{ fork.user }}/{{ fork.root }}/mainnet/config/ssl/ca/"
+        state: absent
+      delegate_to: localhost
+
+    - name: Remove tmp files
+      ansible.builtin.file:
+        path: "/home/{{ fork.user }}/tmp_certs/"
+        state: absent
+      become: true
+      become_user: "{{ fork.user }}"

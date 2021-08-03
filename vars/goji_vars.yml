@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "goji"
+  user: "goji"
+  root: ".goji"
+  path: "goji-blockchain"
+  ico: "XFX"
+  git: "https://github.com/GetGoji/goji-blockchain.git"
+  role: "{{ fork_role }}"

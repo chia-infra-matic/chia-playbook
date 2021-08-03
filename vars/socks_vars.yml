@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "socks"
+  user: "socks"
+  root: ".socks"
+  path: "socks-blockchain"
+  ico: "SOCK"
+  git: "https://bitbucket.org/Socks-Network/socks-blockchain.git"
+  role: "{{ fork_role }}"

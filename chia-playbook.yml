@@ -1,0 +1,39 @@
+---
+- name: Backup fork
+  hosts: "{{ target }}"
+  gather_facts: false
+  become: true
+  tasks:
+
+    - name: Set action
+      set_fact:
+        action: "{{ ( action | default('help') ) | lower }}"
+        action_list:
+          - "install"
+          - "remove"
+          - "upgrade"
+          - "backup"
+          - "restore"
+          - "help"
+        backup_user: "{{ ( backup_user | default ('true') ) | lower }}"
+        configure_plots: "{{ ( configure_plots | default ('true') ) | lower }}"
+
+    - name: Validate action
+      assert:
+        that: 
+          - action | lower in action_list
+
+    - name: Validate required vars for installation
+      assert:
+        that: 
+          - fork_mnemonic is defined and fork_mnemonic | length > 0
+      when: action in ("install","upgrade")
+
+    - name: Load fork vars
+      include_vars: "vars/{{ fork_name }}_vars.yml"
+
+    - name: Load local vars
+      include_vars: "local_vars.yml"
+
+    - name: Include tasks
+      include_tasks: "tasks/action_{{ action }}.yml"

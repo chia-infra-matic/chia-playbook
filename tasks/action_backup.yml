@@ -1,0 +1,22 @@
+---
+- name: Load initial config
+  include_tasks: fork_get_config.yml
+
+- name: Include tasks - Send telegram message
+  include_tasks: telegram_sendMessage.yml
+  vars:
+    message: "Starting backup."
+
+- name: Include tasks - Stop Services
+  include_tasks: fork_services_stop.yml
+
+- name: Include tasks - Perform backup
+  include_tasks: perform_backup.yml
+
+- name: Include tasks - Start Services
+  include_tasks: fork_services_start.yml
+
+- name: Include tasks - Send telegram message
+  include_tasks: telegram_sendMessage.yml
+  vars:
+    message: "Backup process completed."

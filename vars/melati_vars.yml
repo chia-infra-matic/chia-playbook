@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "melati"
+  user: "melati"
+  root: ".melati"
+  path: "melati-blockchain"
+  ico: "XMX"
+  git: "https://github.com/Melati-Network/melati-blockchain.git"
+  role: "{{ fork_role }}"

@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "wheat"
+  user: "wheat"
+  root: ".wheat"
+  path: "wheat-blockchain"
+  ico: "WHEAT"
+  git: "https://github.com/wheatnetwork/wheat-blockchain.git"
+  role: "{{ fork_role }}"

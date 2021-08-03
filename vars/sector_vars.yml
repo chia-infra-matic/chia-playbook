@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "sector"
+  user: "sector"
+  root: ".sector"
+  path: "sector-blockchain"
+  ico: "XSC"
+  git: "https://github.com/Sector-Network/sector-blockchain.git"
+  role: "{{ fork_role }}"

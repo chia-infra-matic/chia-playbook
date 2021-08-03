@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "kale"
+  user: "kale"
+  root: ".kale"
+  path: "kale-blockchain"
+  ico: "XKA"
+  git: "https://github.com/Kale-Network/kale-blockchain.git"
+  role: "{{ fork_role }}"

@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "greendoge"
+  user: "greendoge"
+  root: ".greendoge"
+  path: "greendoge-blockchain"
+  ico: "GDOG"
+  git: "https://github.com/GreenDoge-Network/greendoge-blockchain.git"
+  role: "{{ fork_role }}"

@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "silicoin"
+  user: "sili"
+  root: ".silicoin"
+  path: "silicoin-blockchain"
+  ico: "SIT"
+  git: "https://github.com/silicoin-network/silicoin-blockchain.git"
+  role: "{{ fork_role }}"

@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "chia"
+  user: "chiarose"
+  root: ".chiarose"
+  path: "chia-rosechain"
+  ico: "XCR"
+  git: "https://github.com/snight1983/chia-rosechain.git"
+  role: "{{ fork_role }}"

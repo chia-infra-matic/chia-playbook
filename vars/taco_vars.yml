@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "taco"
+  user: "taco"
+  root: ".taco"
+  path: "taco-blockchain"
+  ico: "XTX"
+  git: "https://github.com/Taco-Network/taco-blockchain.git"
+  role: "{{ fork_role }}"

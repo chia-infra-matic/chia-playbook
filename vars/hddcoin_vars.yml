@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "hddcoin"
+  user: "hddcoin"
+  root: ".hddcoin"
+  path: "hddcoin-blockchain"
+  ico: "HDD"
+  git: "https://github.com/HDDcoin-Network/hddcoin-blockchain.git"
+  role: "{{ fork_role }}"

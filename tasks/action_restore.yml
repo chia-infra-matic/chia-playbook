@@ -1,0 +1,41 @@
+---
+- name: Load initial config
+  include_tasks: fork_get_config.yml
+
+- name: Include tasks - Stop Services
+  include_tasks: fork_services_stop.yml
+
+- name: Restore newest archive
+  block:
+    - name: Find newest archive
+      shell: "ls -Atr {{ backup.path }}/*-{{ fork.user }}-{{ fork.role }}.tgz | tail -n 1"
+      register: fork_backup_newest
+      changed_when: false
+    
+    - name: Set restore path
+      set_fact:
+        restore_db_path: "{{ fork_backup_newest.stdout }}"
+      
+  when: restore_db_path is not defined
+
+- name: Restore from tar
+  command: "tar -C /home -zxvf {{ restore_db_path }} {{ fork.user }}/{{ fork.root }}/mainnet/db {{ fork.user }}/{{ fork.root }}/mainnet/wallet"
+  args:
+    warn: false
+  become: true
+  become_user: root
+  changed_when: false
+
+- name: Replace ownership
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "{{ fork.user }}"
+    group: "{{ fork.user }}"
+  loop:
+    - "{{ fork.user }}/{{ fork.root }}/mainnet/db"
+    - "{{ fork.user }}/{{ fork.root }}/mainnet/wallet"
+
+- name: Include tasks - Start Services
+  include_tasks: fork_services_start.yml

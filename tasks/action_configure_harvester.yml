@@ -1,0 +1,21 @@
+---
+- name: Configure plots path
+  shell: ". ./activate && {{ fork.bin }} plots add -d {{ item }}"
+  args:
+    chdir: "/home/{{ fork.user }}/{{ fork.path }}"
+  become: true
+  become_user: "{{ fork.user }}"
+  register: fork_configure_plots
+  changed_when: fork_configure_plots.rc == 0
+  loop: "{{ harvester.plots }}"
+  when: configure_plots is defined and configure_plots | bool
+
+- name: Configure remote farmer
+  shell: ". ./activate && {{ fork.bin }} configure --set-farmer-peer {{ node_peer }}:{{ fork_config.farmer.port }}"
+  args:
+    chdir: "/home/{{ fork.user }}/{{ fork.path }}"
+  become: true
+  become_user: "{{ fork.user }}"
+  register: fork_configure_farmer_peer
+  changed_when: fork_configure_farmer_peer.rc == 0
+  when: node_peer is defined

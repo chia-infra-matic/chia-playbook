@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "flax"
+  user: "flax"
+  root: ".flax"
+  path: "flax-blockchain"
+  ico: "XFX"
+  git: "https://github.com/Flax-Network/flax-blockchain.git"
+  role: "{{ fork_role }}"

@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "dogechia"
+  user: "dogechia"
+  root: ".dogechia"
+  path: "chia-rosechain"
+  ico: "XDG"
+  git: "https://github.com/DogeChia/doge-chia.git"
+  role: "{{ fork_role }}"

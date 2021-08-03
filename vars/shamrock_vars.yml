@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "shamrock"
+  user: "shamrock"
+  root: ".shamrock"
+  path: "shamrock-blockchain"
+  ico: "SRN"
+  git: "https://github.com/Shamrock-Network/shamrock-blockchain.git"
+  role: "{{ fork_role }}"

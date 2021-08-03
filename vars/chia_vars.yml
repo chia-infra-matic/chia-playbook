@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "chia"
+  user: "chia"
+  root: ".chia"
+  path: "chia-blockchain"
+  ico: "XCH"
+  git: "https://github.com/Chia-Network/chia-blockchain.git"
+  role: "{{ fork_role }}"

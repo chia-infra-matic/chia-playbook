@@ -1,0 +1,49 @@
+---
+- name: Fork services
+  block:
+    - name: Start services
+      shell: "cd /home/{{ fork.user }}/{{ fork.path }}&& . ./activate && {{ fork.bin }} start {{ fork.role }} -r"
+      become: true
+      become_user: "{{ fork.user }}"
+      register: fork_services
+      failed_when: fork_services.rc != 0
+      changed_when: fork_services.stdout_lines[1] != "Starting daemon"
+    
+    - name: Wait for Daemon port to be present before continue
+      wait_for:
+        port: "{{ fork_config.daemon_port }}"
+        state: present
+    
+    - name: Wait for Full Node port to be present before continue
+      wait_for:
+        port: "{{ fork_config.full_node.port }}"
+        state: present
+      when: 
+        - fork.role == "all" or fork.role == "node" or fork.role == "farmer"
+    
+    - name: Wait for Farmer port to be present before continue
+      wait_for:
+        port: "{{ fork_config.farmer.port }}"
+        state: present
+      when:
+        - fork.role == "all" or fork.role == "farmer" or fork.role == "farmer-only" or fork.role == "farmer-no-wallet"
+    
+    - name: Wait for Harvester port to be present before continue
+      wait_for:
+        port: "{{ fork_config.harvester.rpc_port }}"
+        state: present
+      when:
+        - fork.role == "all" or fork.role == "farmer" or fork.role == "farmer-no-wallet" or fork.role == "harvester"
+    
+    - name: Wait for Wallet port to be present before continue
+      wait_for:
+        port: "{{ fork_config.wallet.rpc_port }}"
+        state: present
+      when:
+        - fork.role == "all" or fork.role == "farmer" or fork.role == "wallet" or fork.role == "wallet-only"
+
+  rescue:
+    - name: Include tasks - Send telegram message
+      include_tasks: telegram_sendMessage.yml
+      vars:
+        message: "Failed to start services."

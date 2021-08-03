@@ -1,0 +1,55 @@
+---
+- name: Create user
+  ansible.builtin.user:
+    name: "{{ fork.user }}"
+    shell: /bin/bash
+
+- name: Add ansible user to user group
+  user:
+    name: ansible
+    groups: "{{ fork.user }}"
+    append: yes
+
+- name: Set right permissions to home
+  file:
+    path: "/home/{{ fork.user }}"
+    mode: 0770
+
+- name: Set right permissions to crontab file if already exists
+  file:
+    path: "/var/spool/cron/crontabs/{{ fork.user }}"
+    owner: "{{ fork.user }}"
+
+- name: Clone Repo
+  ansible.builtin.git:
+    repo: "{{ fork.git }}"
+    dest: "/home/{{ fork.user }}/{{ fork.path }}"
+    version: main
+  become: true
+  become_user: "{{ fork.user }}"
+
+- name: Load initial config
+  include_tasks: fork_get_config.yml
+
+- name: Install fork
+  shell: bash install.sh
+  args:
+    chdir: "/home/{{ fork.user }}/{{ fork.path }}"
+  register: fork_install
+  changed_when: fork_install.rc == 0
+  become: true
+  become_user: root
+
+- name: Configure fork
+  include_tasks: action_configure.yml
+
+- name: Configure harvester
+  include_tasks: action_configure_harvester.yml
+
+- name: Start Services
+  include_tasks: fork_services_start.yml
+
+- name: Init wallet
+  include_tasks: action_configure_wallet.yml
+  when: 
+    - fork.role == "all" or fork.role == "farmer" or fork.role == "wallet" or fork.role == "wallet-only"

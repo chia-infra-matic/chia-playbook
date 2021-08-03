@@ -1,0 +1,20 @@
+---
+- name: Perform backup
+  block:
+    - name: Perform backup
+      archive:
+        path: "/home/{{ fork.user }}"
+        dest: "{{ backup.path }}/{{ lookup('pipe','date +%Y%m%d%H%M%S') }}-{{ fork.user }}-{{ fork.role }}.tgz"
+      become: true
+      become_user: root
+    
+    - name: Include tasks - Send telegram message
+      include_tasks: telegram_sendMessage.yml
+      vars:
+        message: "Backup process succeded."
+
+  rescue:
+    - name: Include tasks - Send telegram message
+      include_tasks: telegram_sendMessage.yml
+      vars:
+        message: "Backup process failed."

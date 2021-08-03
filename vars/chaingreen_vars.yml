@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "chaingreen"
+  user: "chaingreen"
+  root: ".chaingreen"
+  path: "chaingreen-blockchain"
+  ico: "CGN"
+  git: "https://github.com/ChainGreenOrg/chaingreen-blockchain.git"
+  role: "{{ fork_role }}"

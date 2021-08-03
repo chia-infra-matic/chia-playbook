@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "cannabis"
+  user: "cannabis"
+  root: ".cannabis"
+  path: "cannabis-blockchain"
+  ico: "CANS"
+  git: "https://github.com/CannabisChain/cannabis-blockchain.git"
+  role: "{{ fork_role }}"

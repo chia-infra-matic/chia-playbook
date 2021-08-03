@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "apple"
+  user: "apple"
+  root: ".apple"
+  path: "apple-blockchain"
+  ico: "APPLE"
+  git: "https://github.com/Apple-Network/apple-blockchain.git"
+  role: "{{ fork_role }}"

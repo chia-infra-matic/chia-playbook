@@ -1,0 +1,10 @@
+---
+- name: Send telegram message
+  uri:
+    url: "https://api.telegram.org/bot{{ telegram.hash }}/sendMessage"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      chat_id: "{{ telegram.chat_id }}"
+      parse_mode: "HTML"
+      text: "{{ fork.ico | upper }} - {{ fork.user }} {{ fork.role }}. {{ message }}"

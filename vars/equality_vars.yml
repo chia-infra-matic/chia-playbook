@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "equality"
+  user: "equality"
+  root: ".equality"
+  path: "equality-blockchain"
+  ico: "XEQ"
+  git: "https://github.com/Equality-Network/equality-blockchain.git"
+  role: "{{ fork_role }}"

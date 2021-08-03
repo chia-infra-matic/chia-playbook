@@ -1,0 +1,60 @@
+---
+- name: Stop services
+  block:
+    - name: Stop services
+      shell: "cd /home/{{ fork.user }}/{{ fork.path }}&& . ./activate && {{ fork.bin }} stop {{ fork.role }} -d"
+      become: true
+      become_user: "{{ fork.user }}"
+      register: fork_services
+      failed_when: fork_services.rc != 0 and fork_services.stdout_lines[0] != "Daemon not started yet"
+      changed_when: fork_services.stdout_lines[0] != "Daemon not started yet"
+    
+    - name: Wait for Daemon port to be absent before continue
+      wait_for:
+        port: "{{ fork_config.daemon_port }}"
+        state: absent
+    
+    - name: Wait for Full Node port to be absent before continue
+      wait_for:
+        port: "{{ fork_config.full_node.port }}"
+        state: absent
+      when: 
+        - fork.role == "all" or fork.role == "node" or fork.role == "farmer"
+    
+    - name: Wait for Farmer port to be absent before continue
+      wait_for:
+        port: "{{ fork_config.farmer.port }}"
+        state: absent
+      when:
+        - fork.role == "all" or fork.role == "farmer" or fork.role == "farmer-only" or fork.role == "farmer-no-wallet"
+    
+    - name: Wait for Harvester port to be absent before continue
+      wait_for:
+        port: "{{ fork_config.harvester.rpc_port }}"
+        state: absent
+      when:
+        - fork.role == "all" or fork.role == "farmer" or fork.role == "farmer-no-wallet" or fork.role == "harvester"
+    
+    - name: Wait for Wallet port to be absent before continue
+      wait_for:
+        port: "{{ fork_config.wallet.rpc_port }}"
+        state: absent
+      when:
+        - fork.role == "all" or fork.role == "farmer" or fork.role == "wallet" or fork.role == "wallet-only"
+
+    - name: Get running processes
+      shell: "ps -U {{ fork.user }} | grep -v grep | grep {{ fork.bin }}_ | awk '{print $1}'"
+      register: fork_processes
+      changed_when: false
+
+    - name: Kill remaining processes 
+      shell: "kill -9 {{ item }}"
+      loop: "{{ fork_processes.stdout_lines }}"
+      become_user: "{{ fork.user }}"
+      when: fork_processes.stdout_lines | length > 0
+
+  rescue:
+    - name: Include tasks - Send telegram message
+      include_tasks: telegram_sendMessage.yml
+      vars:
+        message: "Failed to stop services."

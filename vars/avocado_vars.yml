@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "avocado"
+  user: "avocado"
+  root: ".avocado"
+  path: "avocado-blockchain"
+  ico: "AVO"
+  git: "https://github.com/Avocado-Network/avocado-blockchain.git"
+  role: "{{ fork_role }}"

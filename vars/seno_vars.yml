@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "seno"
+  user: "seno"
+  root: ".seno2"
+  path: "seno-blockchain"
+  ico: "XSE"
+  git: "https://github.com/denisio/seno-blockchain.git"
+  role: "{{ fork_role }}"

@@ -1,0 +1,37 @@
+---
+- name: Fetch initial config from repo
+  block:
+    - name: Fetch initial config from repo
+      ansible.builtin.fetch:
+        src: "/home/{{ fork.user }}/{{ fork.path }}/{{ fork.bin }}/util/initial-config.yaml"
+        dest: /tmp/fetched
+      become: true
+      become_user: "{{ fork.user }}"
+
+    - name: Set fact
+      set_fact:
+        chain_name: "{{ fork.bin }}"
+  
+  rescue:
+    - name: Fetch initial config from repo
+      ansible.builtin.fetch:
+        src: "/home/{{ fork.user }}/{{ fork.path }}/chia/util/initial-config.yaml"
+        dest: /tmp/fetched
+      become: true
+      become_user: "{{ fork.user }}"
+
+    - name: Set fact
+      set_fact:
+        chain_name: "chia"
+
+
+- name: Include vars
+  include_vars:
+    name: fork_config
+    file: "/tmp/fetched/{{ target }}/home/{{ fork.user }}/{{ fork.path }}/{{ chain_name }}/util/initial-config.yaml"
+
+- name: Cleanup file
+  ansible.builtin.file:
+    path: "/tmp/fetched/{{ target }}/home/{{ fork.user }}/{{ fork.path }}/{{ chain_name }}/util/initial-config.yaml"
+    state: absent
+  delegate_to: localhost

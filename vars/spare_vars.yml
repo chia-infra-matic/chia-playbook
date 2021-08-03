@@ -1,0 +1,9 @@
+---
+fork:
+  bin: "spare"
+  user: "spare"
+  root: ".spare"
+  path: "spare-blockchain"
+  ico: "SPAR"
+  git: "https://github.com/Spare-Network/spare-blockchain.git"
+  role: "{{ fork_role }}"

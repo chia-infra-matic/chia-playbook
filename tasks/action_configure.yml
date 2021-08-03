@@ -1,0 +1,72 @@
+---
+- name: Include a line to activate venv
+  lineinfile:
+    path: "/home/{{ fork.user }}/.profile"
+    line: "cd /home/{{ fork.user }}/{{ fork.path }}&& . ./activate && cd"
+  become: true
+  become_user: "{{ fork.user }}"
+
+- name: Fork Init
+  shell: ". ./activate && {{ fork.bin }} init"
+  args:
+    chdir: "/home/{{ fork.user }}/{{ fork.path }}"
+  become: true
+  become_user: "{{ fork.user }}"
+  register: fork_init
+  changed_when: fork_init.rc == 0
+
+- name: Fork install remote certs
+  include_tasks: action_configure_remote_certs.yml
+  when: node_peer is defined
+
+- name: Add mnemonic key
+  block:
+    - name: Write fork mnemonic to a tmp file
+      ansible.builtin.template:
+        src: ../templates/fork_mnemonic.j2
+        dest: "/home/{{ fork.user }}/{{ fork.path }}/fork_mnemonic.tmp"
+        mode: '0400'
+        owner: "{{ fork.user }}"
+        group: "{{ fork.user }}"
+
+    - name: Add key
+      shell: ". ./activate && {{ fork.bin }} keys add -f /home/{{ fork.user }}/{{ fork.path }}/fork_mnemonic.tmp"
+      args:
+        chdir: "/home/{{ fork.user }}/{{ fork.path }}"
+      become: true
+      become_user: "{{ fork.user }}"
+      register: fork_keys_add
+      changed_when: fork_keys_add.rc == 0
+
+  always:
+    - name: Remove fork mnemonic tmp file
+      ansible.builtin.file:
+        path: "/home/{{ fork.user }}/{{ fork.path }}/fork_mnemonic.tmp"
+        state: absent
+      become: true
+      become_user: "{{ fork.user }}"
+
+- name: Set log to INFO
+  shell: ". ./activate && {{ fork.bin }} configure -log-level INFO"
+  args:
+    chdir: "/home/{{ fork.user }}/{{ fork.path }}"
+  become: true
+  become_user: "{{ fork.user }}"
+  register: fork_configure_log
+  changed_when: fork_configure_log.rc == 0
+
+- name: Copy start on boot bash script
+  ansible.builtin.template:
+    src: ../templates/fork_autostart.j2
+    dest: "/home/{{ fork.user }}/fork_autostart.sh"
+    mode: '0500'
+    owner: "{{ fork.user }}"
+    group: "{{ fork.user }}"
+
+- name: Add start on boot bash to crontab
+  ansible.builtin.cron:
+    name: "Start {{ fork.bin }} at boot"
+    special_time: reboot
+    job: "/usr/bin/bash /home/{{ fork.user }}/fork_autostart.sh"
+  become: true
+  become_user: "{{ fork.user }}"

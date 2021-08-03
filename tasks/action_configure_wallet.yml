@@ -1,0 +1,28 @@
+---
+- name: Start wallet - Skip restore prompt
+  block:
+    - name: Write script to run wallet show
+      ansible.builtin.template:
+        src: ../templates/fork_wallet_show.j2
+        dest: "/home/{{ fork.user }}/fork_wallet_show.sh"
+        mode: '0500'
+        owner: "{{ fork.user }}"
+        group: "{{ fork.user }}"
+
+    - name: Respond to prompt
+      expect:
+        command: "/usr/bin/bash /home/{{ fork.user }}/fork_wallet_show.sh"
+        responses:
+          'Press F to use your own backup file:' : 's'
+      become: true
+      become_user: "{{ fork.user }}"
+      register: fork_keys_add
+      changed_when: fork_keys_add.rc == 0
+
+  always:
+    - name: Remove script to run wallet show
+      ansible.builtin.file:
+        path: "/home/{{ fork.user }}/fork_wallet_show.sh"
+        state: absent
+      become: true
+      become_user: "{{ fork.user }}"
