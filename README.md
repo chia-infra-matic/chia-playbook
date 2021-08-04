@@ -26,6 +26,7 @@ The list is getting larger and larger and larger. I will just mention some of th
 - Flax
 - Flora
 - Etc etc
+- Note: Again, please check the full list in our Wiki.
 
 ### To what Operative Systems?:
 - Fully tested and working in Ubuntu Server AMD64 and ARM64 (Yup! raspberry too)
@@ -35,8 +36,6 @@ The list is getting larger and larger and larger. I will just mention some of th
 - Developed and tested in Ansible version 2.9
 - Crossed ssh keys / user configured to access any host that this playbook will execute commands
 - You have fully configured a privileged user in any of the machines you are going to execute commands (For further information check the Wiki section)
-
-Note: Again, please check the full list in our Wiki.
 
 # WARNING - Rules
 While this playbooks aims to make your life easier bear in mind that:
