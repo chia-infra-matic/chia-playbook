@@ -50,11 +50,25 @@ If you find this playbook useful and you like to support us. Here you have some 
 - Silicoin - tSIT: tsit1wz80jzxcj8d07dfy4leql5w7s20vewlknj9nrws2e97zfpekd90s02wdts
 
 # Playbook execution examples:
-## NOTE!: Ensure you pass mnemonic into fork_mnemomic variable. Recommended to be stored in ansible-vault.
+#### NOTE!: Ensure you pass mnemonic into `fork_mnemomic` variable. Recommended to be stored in ansible-vault.
 
-#### Example to perform an install action:  
-`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=install"`
+#### Install farmer and configure plots (Farmer and harvester in same host):  
+`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=install configure_plots=true"`
 
+#### Install farmer but do not configure plots (Farmer only):  
+`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=install configure_plots=false"`
 
-#### Examplet to backup:
+#### Install harvester and configure farmer peer:  
+`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=harvester action=install configure_plots=true node_peer=<hostname>"`
+
+#### Backup current environment (Will stop daemon and services):
 `ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=backup"`
+
+#### Upgrade fork and restore from most recent db backup:
+`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=upgrade restore_db=true"`
+
+#### Upgrade fork but do not restore DB (Useful for I.E.:testnet reset):
+`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=upgrade restore_db=false configure_plots=true"`
+
+#### Restore to most recent backup:
+`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=restore"`
