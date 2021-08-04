@@ -49,13 +49,12 @@ If you find this playbook useful and you like to support us. Here you have some 
 - Chia - XCH: xch1pdqcl5aeudjx525st8ykpz3gtaewnq0ca84zclf4yej2umlquheqj4vwpl
 - Silicoin - tSIT: tsit1wz80jzxcj8d07dfy4leql5w7s20vewlknj9nrws2e97zfpekd90s02wdts
 
+# Playbook execution examples:
+## NOTE!: Ensure you pass mnemonic into fork_mnemomic variable. Recommended to be stored in ansible-vault.
+
+#### Example to perform an install action:  
+`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=install"`
 
 
-# Example to perform an install action:  
-
-NOTE!: Ensure you pass mnemonic into fork_mnemomic variable. Recommended to be stored in ansible-vault.
-ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=install"
-
-
-Examplet to backup:
-ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=backup"
+#### Examplet to backup:
+`ansible-playbook chia-playbook.yml --extra-vars "target=<hostname> fork_name=silicoin fork_role=farmer action=backup"`
