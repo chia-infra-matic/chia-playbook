@@ -40,6 +40,7 @@ The list is getting larger and larger and larger. I will just mention some of th
 # WARNING - Rules
 While this playbooks aims to make your life easier bear in mind that:
 - Use at your own risk
+- We strongly encourage you to test this playbook before using in production to better understand how it works
 - This playbook takes some disruptive actions (I.E.: Stop services. Delete data.)
 - This playbook has no warranty and will not take responsability of any kind of data loss. If you choose to use we you accept this rules and you will be responsible.
 - This playbook is community based. If you encounter an issue/error please submit it through the Issues sections. However, there will not be any resolution time and support will be best effort. Nevertheless, we will try to do the best.
