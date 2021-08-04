@@ -46,7 +46,7 @@ While this playbooks aims to make your life easier bear in mind that:
 - This playbook is community based. If you encounter an issue/error please submit it through the Issues sections. However, there will not be any resolution time and support will be best effort. Nevertheless, we will try to do the best.
 
 # Sponsor / Support us:
-If you find this playbook useful and you like to support us. Here you have some alternatives to send your donations:
+If you find this playbook useful and you would like to support us. Here you have some alternatives to send your donation:
 - Chia - XCH: xch1pdqcl5aeudjx525st8ykpz3gtaewnq0ca84zclf4yej2umlquheqj4vwpl
 - Silicoin - tSIT: tsit1wz80jzxcj8d07dfy4leql5w7s20vewlknj9nrws2e97zfpekd90s02wdts
 
