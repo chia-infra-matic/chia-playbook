@@ -26,7 +26,7 @@ The list is getting larger and larger and larger. I will just mention some of th
 - Flax
 - Flora
 - Etc etc
-- Note: Again, please check the full list in our Wiki.
+- Note: Again, please check the full list in our Wiki. https://github.com/chia-infra-matic/chia-playbook/wiki/4.-Tested-Forks
 
 ### To what Operative Systems?:
 - Fully tested and working in Ubuntu Server AMD64 and ARM64 (Yup! raspberry too)
