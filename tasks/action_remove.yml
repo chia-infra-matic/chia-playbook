@@ -3,6 +3,9 @@
   include_tasks: action_backup.yml
   when: backup_user is defined and backup_user | bool
 
+- name: Load initial config
+  include_tasks: fork_get_config.yml
+
 - name: Stop all process
   include_tasks: fork_services_stop.yml
 
