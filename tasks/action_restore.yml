@@ -18,22 +18,14 @@
       
   when: restore_db_path is not defined
 
-- name: Restore from tar
-  command: "tar -C /home -zxvf {{ restore_db_path }} {{ fork.user }}/{{ fork.root }}/mainnet/db {{ fork.user }}/{{ fork.root }}/mainnet/wallet"
-  args:
-    warn: false
-  become: true
-  become_user: root
-  changed_when: false
-
-- name: Replace ownership
-  file:
-    path: "{{ item }}"
-    state: directory
-    recurse: yes
+- name: Unarchive db and wallet
+  unarchive:
+    src: "{{ restore_db_path }}"
+    dest: "/home/"
+    remote_src: yes
     owner: "{{ fork.user }}"
     group: "{{ fork.user }}"
-  loop:
+    extra_opts:
     - "{{ fork.user }}/{{ fork.root }}/mainnet/db"
     - "{{ fork.user }}/{{ fork.root }}/mainnet/wallet"
 
