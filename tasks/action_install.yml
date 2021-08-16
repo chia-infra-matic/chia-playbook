@@ -19,12 +19,13 @@
   file:
     path: "/var/spool/cron/crontabs/{{ fork.user }}"
     owner: "{{ fork.user }}"
+  ignore_errors: true
 
 - name: Clone Repo
   ansible.builtin.git:
     repo: "{{ fork.git }}"
     dest: "/home/{{ fork.user }}/{{ fork.path }}"
-    version: main
+    version: "{% if fork.git_version is defined %}{{ fork.git_version }}{% else %}main{% endif %}"
   become: true
   become_user: "{{ fork.user }}"
 
