@@ -1,0 +1,10 @@
+---
+fork:
+  bin: "btcgreen"
+  user: "btcgreen"
+  root: ".btcgreen"
+  path: "btcgreen--blockchain"
+  ico: "XBTC"
+  git: "https://github.com/BTCgreen-Network/btcgreen-blockchain.git"
+  role: "{{ fork_role }}"
+ 
