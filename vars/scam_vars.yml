@@ -1,0 +1,10 @@
+---
+fork:
+  bin: "scam"
+  user: "scam"
+  root: ".scam"
+  path: "scam-blockchain"
+  ico: "SCM"
+  git: "https://github.com/VRn00b/scam-blockchain.git"
+  git_version: "origin"
+  role: "{{ fork_role }}"
