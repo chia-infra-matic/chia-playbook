@@ -35,5 +35,10 @@
     - name: Load local vars
       include_vars: "local_vars.yml"
 
+    - name: Collect minimum facts
+      setup:
+        gather_subset:
+          - min
+
     - name: Include tasks
       include_tasks: "tasks/action_{{ action }}.yml"
